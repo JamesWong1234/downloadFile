@@ -18,14 +18,14 @@ def print_stream(folder):
         path = [os.path.join(root, name) for name in files]
         pathss.extend(path) 
 
-        for path in pathss:   
-            if os.path.isfile(path) & path.endswith('.txt'):
-                #print(path)
-                fp = open(path, "r", encoding="utf8")
-                for line in fp.readlines():
-                    if '.wmv' in line or '.mp4' in line:
-                        print(line)
-                fp.close()
+    for path in pathss:   
+        if os.path.isfile(path) & path.endswith('.txt'):
+            #print(path)
+            fp = open(path, "r", encoding="utf8")
+            for line in fp.readlines():
+                if '.wmv' in line or '.mp4' in line:
+                    print(line)
+            fp.close()
 
 def print_VR(folder):
 
