@@ -1,16 +1,7 @@
 import os
-from unrar import rarfile
 import shutil
-
-def un_rar(file_name):  
-    """unrar zip file"""  
-    rar = rarfile.RarFile(file_name)  
-    if os.path.isdir(file_name + "_files"):  
-        pass  
-    else:  
-        os.mkdir(file_name + "_files")  
-    os.chdir(file_name + "_files")  
-    rar.extractall()
+import json
+from rarfile import RarFile
 
 def print_stream(folder):
     pathss=[]
@@ -43,9 +34,14 @@ def print_VR(folder):
             fp.close()
 
 if __name__ == '__main__':
-    download_folder = 'D:\Downloads'
-    VR_rootdir = 'D:\Downloads\VR'
-    stream_rootdir = 'D:\Downloads\stream'
+    with open("./config/config.json",'r') as load_f:
+        load_dict = json.load(load_f) 
+    #mac
+    #if load_dict['system'] == 'mac':
+    download_folder = load_dict['mac_path']
+    VR_rootdir = download_folder + '/VR'
+    stream_rootdir = download_folder + '/stream'
+
     #move file
     for file in os.listdir(download_folder):
         if file.endswith('.rar'):
@@ -60,7 +56,8 @@ if __name__ == '__main__':
         for file_name in list:
             path = os.path.join(folder, file_name)
             if os.path.isfile(path) & path.endswith('.rar'):
-                un_rar(path)
+                with RarFile(path) as rf:
+                    rf.extractall(path=folder)
 
     #get_address
     print_VR(VR_rootdir)
